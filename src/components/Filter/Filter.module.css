@@ -1,0 +1,16 @@
+.filterWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterWrapper label {
+  padding: 10px 0 5px 0;
+}
+
+.filterWrapper input {
+  width: 200px;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  font-size: 15px;
+}
