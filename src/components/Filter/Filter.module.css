@@ -1,9 +1,6 @@
-.filterWrapper {
+.filterWrapper label {
   display: flex;
   flex-direction: column;
-}
-
-.filterWrapper label {
   padding: 10px 0 5px 0;
 }
 

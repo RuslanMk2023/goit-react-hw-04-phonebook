@@ -7,7 +7,7 @@ import styles from './App.module.css';
 export class App extends Component {
   state = {
     contacts: [],
-    filter: '',
+    filterValue: '',
   };
 
   componentDidMount() {
@@ -15,9 +15,7 @@ export class App extends Component {
     contacts && this.setState({ contacts: JSON.parse(contacts) });
   }
 
-  setFilter = evn => {
-    this.setState({ filter: evn.target.value });
-  };
+  setFilterValue = evn => this.setState({ filterValue: evn.target.value });
 
   addNewContact = newContactObj => {
     this.setState(
@@ -37,12 +35,22 @@ export class App extends Component {
     );
   };
 
+  getContactsForShow = () => {
+    const { contacts, filterValue } = this.state;
+
+    if (filterValue === '') return contacts;
+
+    return contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filterValue.trim().toLowerCase())
+    );
+  };
+
   updContactsLocalStorage = () => {
     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
   };
 
   render() {
-    const { contacts, filter } = this.state;
+    const { contacts, filterValue } = this.state;
 
     return (
       <div className={styles.mainWrapper}>
@@ -51,11 +59,13 @@ export class App extends Component {
 
         <h2> Contacts </h2>
         <div className={styles.contentWrepper}>
-          <Filter filter={filter} setFilter={this.setFilter} />
+          <Filter
+            filterValue={filterValue}
+            setFilterValue={this.setFilterValue}
+          />
           <ContactList
             deleteContact={this.deleteContact}
-            filter={filter}
-            contacts={contacts}
+            contacts={this.getContactsForShow()}
           />
         </div>
       </div>

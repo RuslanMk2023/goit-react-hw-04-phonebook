@@ -1,15 +1,11 @@
 .formWrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-  }
-  
-  form {
-  padding: 10px;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+}
+
+form {
+  padding: 10px;
 
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -19,6 +15,10 @@
 
 label {
   padding: 10px 0 5px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 input {

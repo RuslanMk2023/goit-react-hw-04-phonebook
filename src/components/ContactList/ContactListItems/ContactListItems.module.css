@@ -1,0 +1,30 @@
+.contactWrepper{
+    width: 280px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 8px 0;
+}
+
+.deleteButton {
+    background-color: #e74c3c;
+    border: none;
+    color: #273746;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0px;
+}
+
+.deleteButton:hover {
+    transform: translate(0, 1px);
+}
+
+.deleteButton:active {
+    transform: translate(0, 4px);
+}
