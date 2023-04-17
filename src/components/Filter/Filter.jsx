@@ -2,20 +2,20 @@ import PropTypes from 'prop-types';
 
 import styles from './Filter.module.css';
 
-export const Filter = ({ filterValue, setFilterValue }) => (
+export const Filter = ({filter, setFilter }) => (
     <label htmlFor="find-input" className={styles.filterWrapper}>
       Find contacts by name:
       <input
         type="text"
         name="find"
         id="find-input"
-        onChange={evn => setFilterValue(evn)}
-        value={filterValue}
+        onChange={evn => setFilter(evn.target.value)}
+        value={filter}
       />
     </label>
 );
 
 Filter.propTypes = {
-  setFilterValue: PropTypes.func.isRequired,
-  filterValue: PropTypes.string.isRequired,
+  filter: PropTypes.string.isRequired,
+  setFilter: PropTypes.func.isRequired,
 };

@@ -1,74 +1,47 @@
-import { Component } from 'react';
+import { useEffect, useState} from 'react';
 
 import { ContactForm, Filter, ContactList } from 'components';
 
 import styles from './App.module.css';
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filterValue: '',
+export const App = () => {
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem('contacts')) || []
+  );
+
+  const [filter, setFilter] = useState('')
+
+  useEffect(
+    () => localStorage.setItem('contacts', JSON.stringify(contacts)),
+    [contacts]
+  );
+
+  const addNewContact = newContactObj =>
+    setContacts([...contacts, newContactObj]);
+
+  const deleteContact = id =>
+    setContacts(contacts.filter(contact => contact.id !== id));
+
+  const getContactsForShow = () => {
+    const filterValue = filter.trim().toLowerCase();
+    return filterValue === ''
+      ? contacts
+      : contacts.filter(({ name }) => name.toLowerCase().includes(filterValue));
   };
 
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    contacts && this.setState({ contacts: JSON.parse(contacts) });
-  }
+  return (
+    <div className={styles.mainWrapper}>
+      <h1> Phonebook: </h1>
+      <ContactForm addNewContact={addNewContact} contacts={contacts} />
 
-  setFilterValue = evn => this.setState({ filterValue: evn.target.value });
-
-  addNewContact = newContactObj => {
-    this.setState(
-      prevState => ({
-        contacts: [...prevState.contacts, newContactObj],
-      }),
-      this.updContactsLocalStorage
-    );
-  };
-
-  deleteContact = id => {
-    this.setState(
-      prevState => ({
-        contacts: prevState.contacts.filter(contact => contact.id !== id),
-      }),
-      this.updContactsLocalStorage
-    );
-  };
-
-  getContactsForShow = () => {
-    const { contacts, filterValue } = this.state;
-
-    if (filterValue === '') return contacts;
-
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filterValue.trim().toLowerCase())
-    );
-  };
-
-  updContactsLocalStorage = () => {
-    localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  };
-
-  render() {
-    const { contacts, filterValue } = this.state;
-
-    return (
-      <div className={styles.mainWrapper}>
-        <h1> Phonebook: </h1>
-        <ContactForm addNewContact={this.addNewContact} contacts={contacts} />
-
-        <h2> Contacts </h2>
-        <div className={styles.contentWrepper}>
-          <Filter
-            filterValue={filterValue}
-            setFilterValue={this.setFilterValue}
-          />
-          <ContactList
-            deleteContact={this.deleteContact}
-            contacts={this.getContactsForShow()}
-          />
-        </div>
+      <h2> Contacts </h2>
+      <div className={styles.contentWrepper}>
+        <Filter filter={filter} setFilter={setFilter} />
+        <ContactList
+          deleteContact={deleteContact}
+          contacts={getContactsForShow()}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
